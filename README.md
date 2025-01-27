@@ -4,9 +4,19 @@ A command-line tool to crop images to a specified aspect ratio.
 
 ## Installation
 
+### From GitHub
+
+To install the package directly from GitHub, use the following command:
+
+```sh
+pip install git+https://github.com/ShinChven/crop-by-ar.git
+```
+
+### From Source
+
 1. Clone the repository:
     ```sh
-    git clone <repository-url>
+    git clone https://github.com/ShinChven/crop-by-ar.git
     cd crop-cli
     ```
 
@@ -37,3 +47,7 @@ Example:
 crop-by-ar /path/to/image.jpg 16:9
 crop-by-ar /path/to/images_directory 4:3
 ```
+
+## License
+
+This project is licensed under the MIT License - see the [LICENSE](LICENSE) file for details.
