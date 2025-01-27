@@ -16,7 +16,7 @@ def parse_aspect_ratio(ratio_str):
     except ValueError:
         raise argparse.ArgumentTypeError("Aspect ratio must be in the format W:H with positive integers.")
 
-def crop_image(image_path, aspect_ratio, index, total):
+def crop_image(image_path, aspect_ratio, index, total, output_format=None):
     digits = len(str(total))
     logging.info(f"[{index:0{digits}}/{total}] Source:\t{image_path}")
     with Image.open(image_path) as img:
@@ -40,25 +40,31 @@ def crop_image(image_path, aspect_ratio, index, total):
             bottom = top + new_height
             left, right = 0, img_width
 
-        cropped_img = img.crop((left, top, right, bottom))
-        cropped_img.save(image_path.with_name(image_path.stem + '-cropped' + image_path.suffix))
-        logging.info(f"[{index:0{digits}}/{total}] Saved:\t{image_path.with_name(image_path.stem + '-cropped' + image_path.suffix)}")
+        # Use original format if none specified
+        if output_format is None:
+            output_format = image_path.suffix.lstrip('.')
 
-def process_images(path, aspect_ratio):
+        cropped_img = img.crop((left, top, right, bottom))
+        cropped_img.save(image_path.with_name(image_path.stem + '-cropped' + image_path.suffix).with_suffix(f'.{output_format}'))
+        logging.info(f"[{index:0{digits}}/{total}] Saved:\t{image_path.with_name(image_path.stem + '-cropped' + image_path.suffix).with_suffix(f'.{output_format}')}")
+
+def process_images(path, aspect_ratio, output_format):
     image_paths = list(path.rglob('*')) if path.is_dir() else [path]
     image_paths = [p for p in image_paths if p.suffix.lower() in SUPPORTED_EXTENSIONS]
     total_images = len(image_paths)
 
     for index, image_path in enumerate(image_paths, start=1):
-        crop_image(image_path, aspect_ratio, index, total_images)
+        crop_image(image_path, aspect_ratio, index, total_images, output_format)
 
 def main():
     parser = argparse.ArgumentParser(description="Crop images to a specified aspect ratio.")
-    parser.add_argument('path', type=Path, help="Path to an image file or directory containing images.")
-    parser.add_argument('aspect_ratio', type=parse_aspect_ratio, help="Target aspect ratio in the format W:H.")
+    parser.add_argument('-f', '--output-format', type=str,
+                      help="Output file format (e.g., jpg, png). Defaults to input file format")
+    parser.add_argument('path', type=Path, help="Path to an image file or directory containing images")
+    parser.add_argument('aspect_ratio', type=parse_aspect_ratio, help="Target aspect ratio in the format W:H")
     args = parser.parse_args()
 
-    process_images(args.path, args.aspect_ratio)
+    process_images(args.path, args.aspect_ratio, args.output_format)
 
 if __name__ == "__main__":
     main()
