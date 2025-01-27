@@ -4,7 +4,7 @@ build-backend = "setuptools.build_meta"
 
 [project]
 name = "crop-by-ar"
-version = "0.1.1"
+version = "0.1.2"
 description = "A command-line tool to crop images to a specified aspect ratio."
 authors = [
     { name = "ShinChven", email = "shinchven@gmail.com" }
