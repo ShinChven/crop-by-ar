@@ -14,7 +14,7 @@ requires-python = ">=3.6"
 dependencies = [
     "Pillow"
 ]
-repository = "https://github.com/ShinChven/crop-by-ar"
+urls = { "repository" = "https://github.com/ShinChven/crop-by-ar" }
 
 [tool.setuptools]
 packages = ["src"]
