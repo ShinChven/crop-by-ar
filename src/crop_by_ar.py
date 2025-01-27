@@ -5,6 +5,8 @@ from PIL import Image
 
 logging.basicConfig(level=logging.INFO, format='%(message)s')
 
+SUPPORTED_EXTENSIONS = ['.jpg', '.jpeg', '.png', '.bmp', '.gif', '.tiff', '.webp', '.ico', '.heif']
+
 def parse_aspect_ratio(ratio_str):
     try:
         width, height = map(int, ratio_str.split(':'))
@@ -44,7 +46,7 @@ def crop_image(image_path, aspect_ratio, index, total):
 
 def process_images(path, aspect_ratio):
     image_paths = list(path.rglob('*')) if path.is_dir() else [path]
-    image_paths = [p for p in image_paths if p.suffix.lower() in ['.jpg', '.jpeg', '.png']]
+    image_paths = [p for p in image_paths if p.suffix.lower() in SUPPORTED_EXTENSIONS]
     total_images = len(image_paths)
 
     for index, image_path in enumerate(image_paths, start=1):
