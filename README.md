@@ -48,6 +48,14 @@ crop-by-ar /path/to/image.jpg 16:9
 crop-by-ar /path/to/images_directory 4:3
 ```
 
+## Updating
+
+To update the package to the latest version from GitHub, use the following command:
+
+```sh
+pip install --upgrade git+https://github.com/ShinChven/crop-by-ar.git
+```
+
 ## License
 
 This project is licensed under the MIT License - see the [LICENSE](LICENSE) file for details.

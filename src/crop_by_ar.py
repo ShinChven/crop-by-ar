@@ -1,6 +1,9 @@
 import argparse
+import logging
 from pathlib import Path
 from PIL import Image
+
+logging.basicConfig(level=logging.INFO, format='%(asctime)s - %(levelname)s - %(message)s')
 
 def parse_aspect_ratio(ratio_str):
     try:
@@ -12,6 +15,7 @@ def parse_aspect_ratio(ratio_str):
         raise argparse.ArgumentTypeError("Aspect ratio must be in the format W:H with positive integers.")
 
 def crop_image(image_path, aspect_ratio):
+    logging.info(f"Processing image: {image_path}")
     with Image.open(image_path) as img:
         img_width, img_height = img.size
         target_width, target_height = aspect_ratio
@@ -35,6 +39,7 @@ def crop_image(image_path, aspect_ratio):
 
         cropped_img = img.crop((left, top, right, bottom))
         cropped_img.save(image_path.with_name(image_path.stem + '-cropped' + image_path.suffix))
+        logging.info(f"Saved cropped image: {image_path.with_name(image_path.stem + '-cropped' + image_path.suffix)}")
 
 def process_images(path, aspect_ratio):
     if path.is_file():
