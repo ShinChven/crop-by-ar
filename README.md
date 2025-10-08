@@ -35,7 +35,7 @@ pip install git+https://github.com/ShinChven/crop-by-ar.git
 To crop an image or all images in a directory to a specified aspect ratio:
 
 ```sh
-crop-by-ar <path> <aspect_ratio> [-f <format>]
+cropimg <path> <aspect_ratio> [-f <format>]
 ```
 
 - `<path>`: Path to an image file or directory containing images.
@@ -45,8 +45,8 @@ crop-by-ar <path> <aspect_ratio> [-f <format>]
 Example:
 
 ```sh
-crop-by-ar /path/to/image.jpg 16:9 -f png
-crop-by-ar /path/to/images_directory 4:3 -f bmp
+cropimg /path/to/image.jpg 16:9 -f png
+cropimg /path/to/images_directory 4:3 -f bmp
 ```
 
 ## Updating

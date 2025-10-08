@@ -44,9 +44,14 @@ def crop_image(image_path, aspect_ratio, index, total, output_format=None):
         if output_format is None:
             output_format = image_path.suffix.lstrip('.')
 
+        ratio_str = f"{target_width}x{target_height}"
+        output_path = image_path.with_name(
+            f"{image_path.stem}-cropped-{ratio_str}{image_path.suffix}"
+        ).with_suffix(f'.{output_format}')
+
         cropped_img = img.crop((left, top, right, bottom))
-        cropped_img.save(image_path.with_name(image_path.stem + '-cropped' + image_path.suffix).with_suffix(f'.{output_format}'))
-        logging.info(f"[{index:0{digits}}/{total}] Saved:\t{image_path.with_name(image_path.stem + '-cropped' + image_path.suffix).with_suffix(f'.{output_format}')}")
+        cropped_img.save(output_path)
+        logging.info(f"[{index:0{digits}}/{total}] Saved:\t{output_path}")
 
 def process_images(path, aspect_ratio, output_format):
     image_paths = list(path.rglob('*')) if path.is_dir() else [path]
